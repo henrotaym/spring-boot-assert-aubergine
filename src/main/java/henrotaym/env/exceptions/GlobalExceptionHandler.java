@@ -30,4 +30,12 @@ public class GlobalExceptionHandler {
 
     return this.apiExceptionMapper.responseEntity(apiException);
   }
+
+  @ExceptionHandler(exception = InsufficientStockException.class)
+  public ResponseEntity<ApiExceptionResource> handleInsufficientStockException(
+      InsufficientStockException exception) {
+    ApiException apiException = this.apiExceptionMapper.insufficientStockException(exception);
+
+    return this.apiExceptionMapper.responseEntity(apiException);
+  }
 }

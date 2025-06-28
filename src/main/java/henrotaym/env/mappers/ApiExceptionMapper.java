@@ -2,10 +2,12 @@ package henrotaym.env.mappers;
 
 import henrotaym.env.enums.exceptions.ExceptionType;
 import henrotaym.env.exceptions.ApiException;
+import henrotaym.env.exceptions.InsufficientStockException;
 import henrotaym.env.http.resources.exceptions.ApiExceptionResource;
 import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -26,6 +28,21 @@ public class ApiExceptionMapper {
         exception.getTimestamp(),
         exception.getType(),
         exception.getData());
+  }
+
+  public ApiException insufficientStockException(InsufficientStockException exception) {
+    HashMap<String, Object> data = new HashMap<>();
+    data.put(
+        "vegetable",
+        Map.of(
+            "id", exception.getVegetable().getId(), "stock", exception.getVegetable().getStock()));
+    data.put("quantity", exception.getQuantity());
+
+    return this.builder(exception)
+        .status(HttpStatus.UNPROCESSABLE_ENTITY)
+        .type(ExceptionType.INSUFFICIENT_STOCK)
+        .data(data)
+        .build();
   }
 
   public ApiException entityNotFound(EntityNotFoundException exception) {

@@ -1,6 +1,5 @@
 package henrotaym.env.serializers;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
 import java.util.Set;
 
 // TODO reactive to filter relations
