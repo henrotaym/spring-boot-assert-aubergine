@@ -1,5 +1,6 @@
 package henrotaym.env.http.controllers;
 
+import henrotaym.env.annotations.ValidateRequest;
 import henrotaym.env.entities.Sale;
 import henrotaym.env.enums.ProfileName;
 import henrotaym.env.http.requests.SaleRequest;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -25,6 +27,8 @@ public class SaleController {
   private final SaleMapper saleMapper;
 
   @PostMapping("")
+  @ResponseStatus(value = HttpStatus.CREATED)
+  @ValidateRequest
   public ResponseEntity<SaleResource> store(@RequestBody @Valid SaleRequest request) {
     Sale sale = this.saleService.checkout(request);
 
